@@ -1,5 +1,5 @@
 
-��@echo off
+@echo off
 setlocal enabledelayedexpansion
 set policy="# DO NOT DELETE OR RENAME OR CHANGE ANY FILES AND FOLDER"
 IF EXIST "%~dp0\bin" SET PATH=%PATH%;"%~dp0\bin"
