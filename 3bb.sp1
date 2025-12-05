@@ -1,0 +1,66 @@
+# TOOL_Unlock - PowerShell Version (English Only)
+
+Set-Location -Path (Split-Path -Parent $MyInvocation.MyCommand.Path)
+
+# Window size and colors
+$rawUI = $Host.UI.RawUI
+$size = $rawUI.WindowSize
+$size.Width  = 35
+$size.Height = 12
+$rawUI.WindowSize = $size
+$rawUI.BufferSize = $size
+
+$rawUI.WindowTitle    = "TOOL_Unlock"
+$rawUI.BackgroundColor = "DarkYellow"
+$rawUI.ForegroundColor = "White"
+Clear-Host
+
+function Show-Menu {
+    Clear-Host
+    Write-Host ""
+    Write-Host " 1 - UNLOCK BOOTLOADER"
+    Write-Host " 2 - ENTER FASTBOOT"
+    Write-Host " 3 - EXIT"
+    Write-Host ""
+}
+
+function Do-Unlock {
+    ./bin/update.exe bulkcmd "setenv -f EnableSelinux permissive"
+    ./bin/update.exe bulkcmd "env set lock 0"
+    ./bin/update.exe bulkcmd "env set avb2 0"
+    ./bin/update.exe bulkcmd "env set oem_lock unlock"
+    ./bin/update.exe bulkcmd "store rom_protect off"
+
+    ./bin/update.exe bulkcmd "keyman init 0x1234"
+    ./bin/update.exe bulkcmd "keyman write usid str 1234567890"
+    ./bin/update.exe bulkcmd "keyman read usid"
+
+    ./bin/update.exe bulkcmd "saveenv"
+    ./bin/update.exe bulkcmd fastboot
+    ./bin/fastboot.exe flash logo ./logo.img
+    ./bin/fastboot getvar all
+
+    Write-Host ""
+    Read-Host "Press ENTER to return to menu"
+}
+
+function Do-Fastboot {
+    ./bin/update.exe bulkcmd fastboot
+    Read-Host "Press ENTER to return to menu"
+}
+
+# Main loop
+while ($true) {
+    Show-Menu
+    $M = Read-Host "Select option 1, 2, or 3"
+
+    switch ($M) {
+        '1' { Do-Unlock }
+        '2' { Do-Fastboot }
+        '3' { break }
+        default {
+            Write-Host "Invalid selection" -ForegroundColor Red
+            Start-Sleep -Seconds 1
+        }
+    }
+}
