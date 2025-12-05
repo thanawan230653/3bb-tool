@@ -41,8 +41,11 @@ function Do-Unlock {
     ./bin/fastboot.exe flash logo ./bin/logo.img
     ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./bin/vbmeta.img
     ./bin/wait.exe 5
-    ./bin/fastboot.exe reboot bootloader
+    ./bin/fastboot.exe reboot fastboot
     ./bin/fastboot.exe getvar all
+    ./bin/fastboot.exe flash logo ./bin/logo.img
+    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./bin/vbmeta.img
+    ./bin/fastboot.exe reboot bootloader
 
     Write-Host ""
     Read-Host "Press ENTER to return to menu"
