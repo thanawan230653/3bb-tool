@@ -39,8 +39,7 @@ function Do-Unlock {
     ./bin/update.exe bulkcmd fastboot
     ./bin/fastboot.exe flash logo ./logo.img
     ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./vbmeta.img
-    ./bin/fastboot.exe getvar all
-    ./bin/fastboot.exe reboot fastboot
+    ./bin/wait.exe
     ./bin/fastboot.exe reboot bootloader
     ./bin/fastboot.exe getvar all
 
