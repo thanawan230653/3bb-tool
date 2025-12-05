@@ -38,9 +38,11 @@ function Do-Unlock {
     ./bin/update.exe bulkcmd "saveenv"
     ./bin/update.exe bulkcmd fastboot
     ./bin/fastboot.exe flash logo ./logo.img
-    ./bin/fastboot getvar all
-    ./bin/fastboot reboot fastboot
-    ./bin/fastboot reboot bootloader
+    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./vbmeta.img
+    ./bin/fastboot.exe getvar all
+    ./bin/fastboot.exe reboot fastboot
+    ./bin/fastboot.exe reboot bootloader
+    ./bin/fastboot.exe getvar all
 
     Write-Host ""
     Read-Host "Press ENTER to return to menu"
