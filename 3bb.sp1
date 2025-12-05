@@ -37,9 +37,10 @@ function Do-Unlock {
 
     ./bin/update.exe bulkcmd "saveenv"
     ./bin/update.exe bulkcmd fastboot
-    ./bin/fastboot.exe flash logo ./logo.img
-    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./vbmeta.img
-    ./bin/wait.exe
+    ./bin/wait.exe 5
+    ./bin/fastboot.exe flash logo ./bin/logo.img
+    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./bin/vbmeta.img
+    ./bin/wait.exe 5
     ./bin/fastboot.exe reboot bootloader
     ./bin/fastboot.exe getvar all
 
