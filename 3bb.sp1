@@ -29,7 +29,7 @@ function Do-Unlock {
     update.exe bulkcmd "env set lock 0"
     update.exe bulkcmd "env set avb2 0"
     update.exe bulkcmd "env set oem_lock unlock"
-    bin/update.exe bulkcmd "store rom_protect off"
+    update.exe bulkcmd "store rom_protect off"
 
     update.exe bulkcmd "keyman init 0x1234"
     update.exe bulkcmd "keyman write usid str 1234567890"
