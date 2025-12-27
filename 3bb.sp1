@@ -25,27 +25,21 @@ function Show-Menu {
 }
 
 function Do-Unlock {
-    ./bin/update.exe bulkcmd "setenv -f EnableSelinux permissive"
-    ./bin/update.exe bulkcmd "env set lock 0"
-    ./bin/update.exe bulkcmd "env set avb2 0"
-    ./bin/update.exe bulkcmd "env set oem_lock unlock"
-    ./bin/update.exe bulkcmd "store rom_protect off"
+    update.exe bulkcmd "setenv -f EnableSelinux permissive"
+    update.exe bulkcmd "env set lock 0"
+    update.exe bulkcmd "env set avb2 0"
+    update.exe bulkcmd "env set oem_lock unlock"
+    bin/update.exe bulkcmd "store rom_protect off"
 
-    ./bin/update.exe bulkcmd "keyman init 0x1234"
-    ./bin/update.exe bulkcmd "keyman write usid str 1234567890"
-    ./bin/update.exe bulkcmd "keyman read usid"
+    update.exe bulkcmd "keyman init 0x1234"
+    update.exe bulkcmd "keyman write usid str 1234567890"
+    update.exe bulkcmd "keyman read usid"
 
-    ./bin/update.exe bulkcmd "saveenv"
-    ./bin/update.exe bulkcmd fastboot
-    ./bin/wait.exe 5
-    ./bin/fastboot.exe flash logo ./bin/logo.img
-    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./bin/vbmeta.img
-    ./bin/wait.exe 5
-    ./bin/fastboot.exe reboot fastboot
-    ./bin/fastboot.exe getvar all
-    ./bin/fastboot.exe flash logo ./bin/logo.img
-    ./bin/fastboot.exe flash vbmeta --disable-verity --disable-verification ./bin/vbmeta.img
-    ./bin/fastboot.exe reboot bootloader
+    update.exe bulkcmd "saveenv"
+    update.exe bulkcmd fastboot
+    wait.exe 5
+    fastboot.exe getvar all
+    fastboot reboot fastboot
 
     Write-Host ""
     Read-Host "Press ENTER to return to menu"
